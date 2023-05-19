@@ -33,12 +33,13 @@ export class LessonComponent implements OnInit {
 
   loadQuiz(quizlet: Quizlet) {
     this.uuid = quizlet.quiz.phraseUUID;
-    this.router.navigateByUrl('/lesson/' + quizlet.quiz.type + '/' + this.uuid,{state:quizlet});
+    this.router.navigateByUrl('/lesson/' + quizlet.quiz.type + '/' + this.uuid + '/' + Math.random(), {state: quizlet} );
   }
 
   goNext() {
     this.lesson?.next();
     this.quizlet = this.lesson?.quizlet;
+
     if (this.quizlet)
       this.loadQuiz(this.quizlet);
   }

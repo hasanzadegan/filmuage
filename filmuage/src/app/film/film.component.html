@@ -1,6 +1,7 @@
-<div class="p-2">
+<div class="p-2 lessonItem">
   home
 </div>
+
 <div *ngFor="let lesson of lessonList" class="p-2">
-  <button class="btn btn-outline-info" (click)="loadLesson(lesson.uuid)">{{lesson.title}}</button>
+  <button class="btn btn-outline-info lessonItem" (click)="loadLesson(lesson.uuid)">{{lesson.title}}</button>
 </div>

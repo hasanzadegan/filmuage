@@ -9,12 +9,12 @@ import {IntroComponent} from './intro/intro.component';
 
 
 const routes: Routes = [
-  { path: 'blank/:uuid', component: BlankComponent},
-  { path: 'intro/:uuid', component: IntroComponent},
-  { path: 'speech/:uuid', component: SpeechComponent},
-  { path: 'multi/:uuid', component: MultiComponent},
-  { path: 'order/:uuid', component: OrderComponent},
-  { path: '?id=:uuid', component: LessonComponent},
+  { path: 'blank/:uuid/:r', component: BlankComponent},
+  { path: 'intro/:uuid/:r', component: IntroComponent},
+  { path: 'speech/:uuid/:r', component: SpeechComponent},
+  { path: 'multi/:uuid/:r', component: MultiComponent},
+  { path: 'order/:uuid/:r', component: OrderComponent},
+  { path: '?id=:uuid/:r', component: LessonComponent},
 ];
 
 @NgModule({

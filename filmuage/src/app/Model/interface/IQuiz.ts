@@ -5,4 +5,5 @@ export interface IQuiz {
     phraseUUID: string;
     type: QuizType;
     phrase?:IPhrase;
+    blankPlace?:number;
 }

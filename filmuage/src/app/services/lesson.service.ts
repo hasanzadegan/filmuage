@@ -33,7 +33,8 @@ export class LessonService {
       ],
       quizList: [
         {phraseUUID: 'uuid1', type: 'intro'},
-        {phraseUUID: 'uuid2', type: 'blank'},
+        {phraseUUID: 'uuid2', type: 'blank',blankPlace:1},
+        {phraseUUID: 'uuid2', type: 'blank',blankPlace:3},
         {phraseUUID: 'uuid3', type: 'order'},
         {phraseUUID: 'uuid3', type: 'speech'},
         {phraseUUID: 'uuid2', type: 'multi'},

@@ -15,5 +15,11 @@ export class BlankComponent implements OnInit {
     this.quizlet = router.getCurrentNavigation()?.extras.state;
   }
   ngOnInit(): void {
+
+    let blankStrArr = this.quizlet.words;
+    blankStrArr[this.quizlet.quiz.blankPlace] = '___'
+
+    this.quizlet.phrase.text = blankStrArr.join(' ');
+    console.log('phrase >>>>> ', this.quizlet.phrase.text);
   }
 }
