@@ -1,0 +1,33 @@
+<div class="criteria-container " style="padding: 5px">
+  <button class="btn" (click)="menu='phrase'" [class.underline]="menu=='phrase'">phrase</button>
+  <button class="btn" (click)="menu='word'" [class.underline]="menu=='word'">word</button>
+</div>
+<div style="padding: 5px">
+  <div *ngIf="menu=='phrase'">
+    <div *ngFor="let item of aroundList" style="padding: 3px" >
+      <div style="font-size: 12px;color:silver"  [class.bold]="item.selected == true">{{item.Phrase}}</div>
+    </div>
+  </div>
+  <div *ngIf="menu=='word'">
+    <div *ngIf="selectedItem.question && !selectedItem.edit">
+      <div style="overflow-y: auto;height: 240px;overflow-x: hidden">
+        <div style="padding: 5px">
+          <app-word-dictionary [word]="selectedItem.question" [height]="140"></app-word-dictionary>
+        </div>
+        <div style="padding: 5px;text-align: center">
+          <button class="myButton" style="height: 40px" (click)="selectedItem.edit=true">change</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!selectedItem.question || selectedItem.edit">
+      <div class="criteria-container" style="flex-wrap: wrap;">
+        <div *ngFor="let item of wordList" style="padding: 1px">
+          <button class="btn" [class.selected]="item.selected" (click)="selectWord(item)">{{item.t}}</button>
+        </div>
+        <app-word-dictionary
+          (notifyParent)="onNotifyIntro($event)"
+          [word]="selectedWord" [height]="140"></app-word-dictionary>
+      </div>
+    </div>
+  </div>
+</div>

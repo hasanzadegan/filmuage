@@ -122,9 +122,82 @@ const selectWordSoundex = (wordList) =>
  `;
 
 const selectCategory = () =>
-    `
-    SELECT * from Category
- `;
+    `SELECT * from Category`;
+
+// CRUD queries for Topic
+const getAllTopicsQuery = (userId) => `SELECT top 30 * FROM Topic where userId=${userId} and IsActive = 1 order by CreateDate desc`;
+const getAllLessonType= (userId) => `SELECT * FROM LessonType where isActive = 1`;
+
+const getSerachTopicsQuery = (userId,title) => `
+    SELECT top 30 * FROM Topic 
+    where userId=${userId} 
+    and IsActive = 1
+    and title like '%${title}%'`;
+
+const findTopicByIdQuery = (id) => `
+    SELECT * FROM Topic WHERE Id = '${id}';
+`;
+
+const insertTopicQuery = (Title, UserId,IsActive) => `
+    INSERT INTO Topic (Title, UserId,IsActive)
+    VALUES ('${Title}','${UserId}', ${IsActive});
+`;
+
+const updateTopicByIdQuery = (id, Title) => `
+    UPDATE Topic
+    SET Title = '${Title}'
+    WHERE Id = '${id}';
+`;
+
+const deleteTopicByIdQuery = (id) => `
+    UPDATE Topic
+    SET IsActive = 0
+    WHERE Id = '${id}';
+`;
+
+
+const insertTopicItemQuery = (topicId, lessonTypeId, srtPhraseId, fromId, toId, content, title) => `
+    INSERT INTO TopicItem (TopicId, LessonTypeId, SRTPhraseID, FromId, ToId, Content, Title)
+    VALUES ('${topicId}', ${lessonTypeId}, ${srtPhraseId}, ${fromId}, ${toId}, '${content}', '');
+`;
+const getAllTopicItemsQuery = (topicId) => `
+    SELECT * FROM VWTopicItem where topicId = '${topicId}';
+`;
+
+const findTopicItemByIdQuery = (id) => `
+    SELECT * FROM TopicItem WHERE Id = '${id}';
+`;
+const updateTopicItemByIdQuery = (topicItemId, lessonTypeId, content, title) => `
+    UPDATE TopicItem
+    SET LessonTypeId = ${lessonTypeId}, 
+        Content = '${content}', 
+        Title = '${title}'
+    WHERE Id = '${topicItemId}';
+`;
+
+const updateTopicAnswerQuery = (topicItemId, question, options,answer) => `
+    UPDATE TopicItem
+    SET question = '${question}', 
+        options = '${options}', 
+        answer = '${answer}'
+    WHERE Id = '${topicItemId}';
+`;
+
+const deleteTopicItemByIdQuery = (id) => `
+    DELETE FROM TopicItem WHERE Id = '${id}';
+`;
+
+const selectWordSoundexQuery = (word) => `
+    select w.SoundexSimilarWords from WordSoundex w where w.Word = '${word}'
+`;
+
+const selectWordDefinitionsQuery = (word) => `
+    select w.definitions  from WordSoundex w where w.Word = '${word}'
+`;
+
+const updateWordDefinitionsQuery = (word,definitions) => `
+UPDATE WordSoundex SET definitions = '${definitions}' WHERE Word = '${word}'
+`;
 
 
 module.exports = {
@@ -141,5 +214,21 @@ module.exports = {
     createRemovePhraseQuery,
     selectMoviePartQuery,
     selectWordSoundex,
-    selectCategory
+    selectWordDefinitionsQuery,
+    updateWordDefinitionsQuery,
+    getAllTopicsQuery,
+    getAllLessonType,
+    getSerachTopicsQuery,
+    findTopicByIdQuery,
+    insertTopicQuery,
+    updateTopicByIdQuery,
+    deleteTopicByIdQuery,
+    selectCategory,
+    insertTopicItemQuery,
+    getAllTopicItemsQuery,
+    findTopicItemByIdQuery,
+    updateTopicItemByIdQuery,
+    updateTopicAnswerQuery,
+    deleteTopicItemByIdQuery,
+    selectWordSoundexQuery,
 };
