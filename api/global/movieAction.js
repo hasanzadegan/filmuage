@@ -60,14 +60,17 @@ function cropMovie(moviePath, movieName, outPath, movie, soundexList, startTime,
         const endDateTime = endDate.toISOString().substr(11, 12);
 
         // FFmpeg command to crop the movie
-        const examData = createEaxmData(movie, soundexList);
+        // const examData = createEaxmData(movie, soundexList);
+        const examData = '';
 
+        const watermarkPath = moviePath + 'watermark\\Filmuage.png';
 
         const cropCommand = `ffmpeg -noaccurate_seek -i "${inputMoviePath}" -ss ${startDateTime} -to ${endDateTime} -c:v libx264 -preset ultrafast -threads 4 -c:a aac -vf "format=yuv420p" -strict -2 -metadata comment="${examData}" "${outputMoviePath}"`;
+
         console.log(cropCommand);
         const thumbnailCommand = `ffmpeg -noaccurate_seek -ss ${startDateTime} -i "${inputMoviePath}" -vframes 1 -threads 4 "${thumbnailPath}"`;
-        console.log(thumbnailCommand);
-        console.log(new Date());
+        // console.log(thumbnailCommand);
+        // console.log(new Date());
 
         // Execute the crop command
         exec(cropCommand, (error, stdout, stderr) => {

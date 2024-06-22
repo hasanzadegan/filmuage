@@ -14,6 +14,9 @@ const generateSRTPhrasesQuery = ( params) => {
     let query = 'SELECT TOP 50 * FROM SRTPhrases';
     const conditions = [];
 
+    if(params.fileId){
+        conditions.push(`SRTFileID = ${params.fileId}`);
+    }
 
     if (params.phrase) {
         conditions.push(`Phrase LIKE '%${params.phrase}%'`);
@@ -27,6 +30,7 @@ const generateSRTPhrasesQuery = ( params) => {
     if (conditions.length > 0) {
         query += ' WHERE ' + conditions.join(' AND ');
     }
+    console.log(query);
     return query;
 };
 
@@ -160,8 +164,18 @@ const insertTopicItemQuery = (topicId, lessonTypeId, srtPhraseId, fromId, toId, 
     INSERT INTO TopicItem (TopicId, LessonTypeId, SRTPhraseID, FromId, ToId, Content, Title)
     VALUES ('${topicId}', ${lessonTypeId}, ${srtPhraseId}, ${fromId}, ${toId}, '${content}', '');
 `;
+
+
 const getAllTopicItemsQuery = (topicId) => `
-    SELECT * FROM VWTopicItem where topicId = '${topicId}';
+    SELECT * FROM VWTopicItem where topicId = '${topicId}' order by orderId,createDate ;
+`;
+
+const getTopicListQuery = (topicId) => `
+    SELECT Id FROM VWTopicItemList where topicId = '${topicId}' order by orderId,createDate ;
+`;
+
+const getStudentTopicItemsQuery = (topicItemId) => `
+    SELECT top 1 FROM VWStudentTopicItem where topicItemId = '${topicItemId}' order by orderId,createDate ;
 `;
 
 const findTopicItemByIdQuery = (id) => `
@@ -200,6 +214,10 @@ UPDATE WordSoundex SET definitions = '${definitions}' WHERE Word = '${word}'
 `;
 
 
+const selectFileName = (name) => `
+    select * from SRTFiles where UPPER(FileName) like '%${name}%'
+`;
+
 module.exports = {
     getAllSubjectsQuery,
     findSubjectByIdQuery,
@@ -226,9 +244,12 @@ module.exports = {
     selectCategory,
     insertTopicItemQuery,
     getAllTopicItemsQuery,
+    getTopicListQuery,
+    getStudentTopicItemsQuery,
     findTopicItemByIdQuery,
     updateTopicItemByIdQuery,
     updateTopicAnswerQuery,
     deleteTopicItemByIdQuery,
     selectWordSoundexQuery,
+    selectFileName
 };

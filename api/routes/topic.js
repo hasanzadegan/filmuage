@@ -58,6 +58,7 @@ const {
     updateTopicByIdQuery,
     deleteTopicByIdQuery,
     getAllTopicItemsQuery,
+    getTopicListQuery,
     findTopicItemByIdQuery,
     insertTopicItemQuery,
     updateTopicItemByIdQuery,
@@ -117,6 +118,35 @@ router.get('/topicItem/all/:topicId', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Error retrieving topic items.');
+    }
+});
+
+router.get('/topicItem/student/:topicId', async (req, res) => {
+    const {topicId} = req.params;
+    console.log(getAllTopicItemsQuery(topicId))
+    try {
+        const topicItems = await db.executeQuery(getAllTopicItemsQuery(topicId));
+
+        topicItems.forEach(item => {
+            item.Content = JSON.parse(item.Content);
+        });
+        console.log(topicItems);
+
+        res.send(topicItems);
+    } catch (error) {
+        res.status(500).send('Error retrieving topic items.');
+    }
+});
+
+
+router.get('/topicItem/list/:topicId', async (req, res) => {
+    const {topicId} = req.params;
+    try {
+        const topicItems = await db.executeQuery(getTopicListQuery(topicId));
+
+        res.send(topicItems);
+    } catch (error) {
+        res.status(500).send('Error retrieving topic items.',error);
     }
 });
 

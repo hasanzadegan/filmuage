@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/db');
-const { generateSRTPhrasesAround,generateSRTPhrasesQuery ,generateCategorisePhrase, selectMoviePartQuery, selectWordSoundex,selectCategory} = require('../db/queries/queries');
+const { selectFileName,generateSRTPhrasesAround,generateSRTPhrasesQuery ,generateCategorisePhrase, selectMoviePartQuery, selectWordSoundex,selectCategory} = require('../db/queries/queries');
 const { cropMovie,getMovieName } = require('../global/movieAction');
 
 function parsePOSList(posList) {
@@ -110,6 +110,17 @@ router.get('/Category', async (req, res) => {
         res.send(Categories);
     } catch (error) {
         res.status(500).send('Error cropping the movie.');
+    }
+});
+
+router.get('/FileName/:name', async (req, res) => {
+    try {
+        const fileName = req.params.name.toUpperCase();
+        const query = selectFileName(fileName);
+        const fileNames = await db.executeQuery(query);
+        res.send(fileNames);
+    } catch (error) {
+        res.status(500).send('Error fileNames');
     }
 });
 
